@@ -3,230 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HostelEase | Smart Complaint Portal</title>
+    <title>Elite Residency | Smart Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --accent-color: #00f2fe;
-            --text-color: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --primary-glow: #6366f1;
+            --secondary-glow: #a855f7;
+            --text-main: #f8fafc;
+            --text-dim: rgba(248, 252, 252, 0.5);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
 
         body {
+            background: #030712;
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            /* Modern Mesh Gradient Background */
-            background: radial-gradient(circle at top left, #4f46e5, transparent),
-                        radial-gradient(circle at bottom right, #7c3aed, transparent),
-                        #1e1b4b;
-            overflow-x: hidden;
+            overflow: hidden;
+            /* Dynamic background glows */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 40%);
         }
 
-        /* Floating decorative shapes to enhance glass effect */
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #4f46e5, #06b6d4);
-            filter: blur(80px);
-            z-index: -1;
-        }
-        .c1 { width: 300px; height: 300px; top: 10%; left: 15%; }
-        .c2 { width: 250px; height: 250px; bottom: 10%; right: 15%; opacity: 0.6; }
-
-        .container {
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
+        /* --- Navigation Sidebar --- */
+        nav {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(40px) saturate(200%);
+            border-right: 1px solid var(--glass-border);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
         }
 
+        .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(to right, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 50px; text-align: center; }
+
+        .nav-link {
+            padding: 16px; border-radius: 16px; margin-bottom: 8px; cursor: pointer;
+            transition: 0.3s; color: var(--text-dim); display: flex; align-items: center; gap: 12px; font-weight: 600;
+        }
+        .nav-link.active { background: var(--glass-bg); color: #fff; border: 1px solid var(--glass-border); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+        /* --- Main Content Area --- */
+        main { flex: 1; padding: 40px; overflow-y: auto; height: 100vh; position: relative; }
+        .section { display: none; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .section.active { display: block; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Rich Card UI --- */
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.8s ease-out;
+            border-radius: 32px;
+            padding: 30px;
+            margin-bottom: 24px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .grid-layout { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+
+        /* --- Dashboard Widgets --- */
+        .status-header { margin-bottom: 40px; }
+        .status-header h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1.5px; }
+
+        .action-chip { 
+            background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 6px 14px; border-radius: 100px; font-size: 0.75rem; color: #818cf8; font-weight: 700; text-transform: uppercase;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+        /* --- QR Scanner UI --- */
+        .scanner-placeholder {
+            width: 100%; height: 200px; background: rgba(0,0,0,0.4); 
+            border: 2px dashed var(--glass-border); border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: 0.3s;
         }
+        .scanner-placeholder:hover { border-color: var(--primary-glow); background: rgba(99, 102, 241, 0.05); }
 
-        .header h1 {
-            color: var(--text-color);
-            font-size: 1.8rem;
-            letter-spacing: -1px;
-        }
-
-        .header p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.8rem;
-            margin-bottom: 8px;
-            margin-left: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
+        /* --- Form Elements --- */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px; }
         input, select, textarea {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            width: 100%; background: rgba(0,0,0,0.3); border: 2px solid var(--glass-border);
+            border-radius: 18px; padding: 18px; color: #fff; font-size: 1rem; transition: 0.3s;
         }
+        input:focus { border-color: var(--primary-glow); outline: none; }
 
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        .btn-submit {
+            width: 100%; padding: 20px; border-radius: 20px; border: none;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white; font-weight: 800; font-size: 1.1rem; cursor: pointer;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3); transition: 0.3s;
         }
+        .btn-submit:hover { transform: translateY(-4px); box-shadow: 0 15px 50px rgba(99, 102, 241, 0.5); }
 
-        select option {
-            background: #1e1b4b; /* Solid color for dropdown visibility */
-            color: white;
-        }
-
-        button {
-            width: 100%;
-            padding: 16px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 12px;
-            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
-            color: #1e1b4b;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.3);
-        }
-
-        button:active { transform: translateY(0); }
-
-        .success-msg {
-            display: none;
-            text-align: center;
-            color: #4ade80;
-            margin-top: 20px;
-            font-weight: 500;
+        /* --- Responsive Styles --- */
+        @media (max-width: 1024px) { nav { width: 80px; } .nav-text { display: none; } }
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            nav { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--glass-border); flex-direction: row; justify-content: center; }
+            main { padding: 20px; height: auto; }
         }
     </style>
 </head>
 <body>
 
-    <div class="circle c1"></div>
-    <div class="circle c2"></div>
+    <nav>
+        <div class="logo">P.U. Portal</div>
+        <div class="nav-link active" onclick="show('home')">🏠 <span class="nav-text">Home</span></div>
+        <div class="nav-link" onclick="show('profile')">👤 <span class="nav-text">Profile</span></div>
+        <div class="nav-link" onclick="show('leave')">📄 <span class="nav-text">Leave Manager</span></div>
+        <div class="nav-link" onclick="show('ticket')">🛠 <span class="nav-text">Raise Ticket</span></div>
+    </nav>
 
-    <div class="container">
-        <div class="glass-card">
-            <div class="header">
-                <h1>HostelEase</h1>
-                <p>Digital Support Portal</p>
+    <main>
+        <section id="home" class="section active">
+            <div class="status-header">
+                <p class="nav-text" style="color:var(--text-dim)">Welcome back,</p>
+                <h1>Varadharajula Nishant</h1>
             </div>
 
-            <form id="issueForm">
-                <div class="form-group">
-                    <label for="room">Room Number</label>
-                    <input type="text" id="room" placeholder="Ex: 302-A" required>
+            <div class="grid-layout">
+                <div class="glass-card">
+                    <span class="action-chip">Laundry Service</span>
+                    <h3 style="margin-top:20px;">03 Garments in Wash</h3>
+                    <p style="font-size: 0.85rem; opacity:0.6; margin-top:8px;">Estimated Pickup: Tomorrow, 10 AM</p>
+                    <div style="height:6px; background:rgba(255,255,255,0.1); border-radius:10px; margin-top:20px;">
+                        <div style="width:70%; height:100%; background:var(--primary-glow); border-radius:10px;"></div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="category">Issue Category</label>
-                    <select id="category" required>
-                        <option value="" disabled selected>Select an issue...</option>
-                        <option value="electric">Electrical / Fan / Lights</option>
-                        <option value="plumbing">Plumbing / Water Leakage</option>
-                        <option value="internet">Wi-Fi / Connectivity</option>
-                        <option value="other">Furniture / General Maintenance</option>
-                    </select>
+                <div class="glass-card">
+                    <span class="action-chip">Mess Manager</span>
+                    <h3 style="margin-top:20px;">Dinner Booked</h3>
+                    <p style="font-size: 0.85rem; opacity:0.6; margin-top:8px;">Vegetarian Special | 7:30 PM - 9:30 PM</p>
                 </div>
 
-                <div class="form-group">
-                    <label for="desc">Details</label>
-                    <textarea id="desc" rows="3" placeholder="Describe the issue..."></textarea>
+                <div class="glass-card" style="background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(0,0,0,0));">
+                    <span class="action-chip">Open Tickets</span>
+                    <h3 style="margin-top:20px;">01 Active Issue</h3>
+                    <p style="font-size: 0.85rem; opacity:0.6; margin-top:8px;">Wi-Fi Connectivity (Wing B)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="profile" class="section">
+            <div class="glass-card" style="max-width: 800px; margin: 0 auto;">
+                <div style="display:flex; align-items:center; gap:25px; margin-bottom:40px;">
+                    <div style="width:90px; height:90px; border-radius:50%; background:linear-gradient(45deg, var(--primary-glow), var(--secondary-glow)); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:800; border:4px solid var(--glass-border);">VN</div>
+                    <div>
+                        <h2>Varadharajula Nishant</h2>
+                        <p style="color:var(--primary-glow); font-weight:700;">Presidency University</p>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:30px;">
+                    <div class="form-group"><label>Hostel Wing</label><div style="font-weight:700;">Chokkanahalli Boys, AF149</div></div>
+                    <div class="form-group"><label>Contact</label><div style="font-weight:700;">+91 9000683307</div></div>
+                    <div class="form-group"><label>Email ID</label><div style="font-weight:700;">nishant.v@presidency.edu.in</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="leave" class="section">
+            <div class="glass-card" style="max-width:650px; margin: 0 auto;">
+                <h2 style="margin-bottom:30px;">Apply for Leave</h2>
+                <form onsubmit="handle(event)">
+                    <div class="form-group">
+                        <label>Place to Visit</label>
+                        <input type="text" placeholder="Enter Destination">
+                    </div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                        <div class="form-group"><label>From Date</label><input type="date"></div>
+                        <div class="form-group"><label>To Date</label><input type="date"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Reason for Leave</label>
+                        <select>
+                            <option>Recreation</option>
+                            <option>Shuttle Service</option>
+                            <option>Home Visit</option>
+                            <option>Medical Emergency</option>
+                        </select>
+                    </div>
+                    <button class="btn-submit" type="submit">Submit Leave Application</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="ticket" class="section">
+            <div class="glass-card" style="max-width:650px; margin: 0 auto;">
+                <h2 style="margin-bottom:10px;">Raise Maintenance Ticket</h2>
+                <p style="color:var(--text-dim); margin-bottom:30px;">Describe the issue or use the QR scanner outside your room.</p>
+                
+                <div class="scanner-placeholder" onclick="startScanner()">
+                    <span style="font-size:2rem;">📷</span>
+                    <p style="font-weight:700; margin-top:10px;">Tap to Scan Room QR</p>
                 </div>
 
-                <button type="submit" id="submitBtn">Submit Request</button>
-                <div class="success-msg" id="successMsg">✓ Complaint logged successfully!</div>
-            </form>
-        </div>
-    </div>
+                <form style="margin-top:30px;">
+                    <div class="form-group">
+                        <label>Issue Type</label>
+                        <select>
+                            <option>Electrical / Fan / Lights</option>
+                            <option>Plumbing / Water</option>
+                            <option>Internet / Wi-Fi</option>
+                            <option>Housekeeping</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description*</label>
+                        <textarea rows="4" placeholder="Briefly describe the problem..."></textarea>
+                    </div>
+                    <button class="btn-submit" type="button">Lodge Complaint</button>
+                </form>
+            </div>
+        </section>
+    </main>
 
     <script>
-        const form = document.getElementById('issueForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const successMsg = document.getElementById('successMsg');
+        function show(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+        }
 
-        // Logic to grab Room No from URL automatically (For QR coding)
-        // URL example: yourpage.html?room=405
-        window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            const roomNumber = params.get('room');
-            if(roomNumber) {
-                document.getElementById('room').value = roomNumber;
-            }
-        };
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Visual feedback
-            submitBtn.innerText = "Processing...";
-            submitBtn.style.opacity = "0.7";
-            submitBtn.disabled = true;
-
-            setTimeout(() => {
-                form.reset();
-                submitBtn.style.display = "none";
-                successMsg.style.display = "block";
-                
-                // Reset for next user after 3 seconds
-                setTimeout(() => {
-                    successMsg.style.display = "none";
-                    submitBtn.style.display = "block";
-                    submitBtn.innerText = "Submit Request";
-                    submitBtn.style.opacity = "1";
-                    submitBtn.disabled = false;
-                }, 3000);
-            }, 1500);
-        });
+        function handle(e) { e.preventDefault(); alert("Request submitted successfully!"); show('home'); }
+        
+        function startScanner() {
+            alert("QR Scanner Initialized... \nFetching Room Details: Wing B - 402");
+        }
     </script>
 </body>
 </html>
