@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HostelEase | Smart Complaint Portal</title>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --accent-color: #00f2fe;
+            --text-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Modern Mesh Gradient Background */
+            background: radial-gradient(circle at top left, #4f46e5, transparent),
+                        radial-gradient(circle at bottom right, #7c3aed, transparent),
+                        #1e1b4b;
+            overflow-x: hidden;
+        }
+
+        /* Floating decorative shapes to enhance glass effect */
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #4f46e5, #06b6d4);
+            filter: blur(80px);
+            z-index: -1;
+        }
+        .c1 { width: 300px; height: 300px; top: 10%; left: 15%; }
+        .c2 { width: 250px; height: 250px; bottom: 10%; right: 15%; opacity: 0.6; }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            margin-left: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+
+        select option {
+            background: #1e1b4b; /* Solid color for dropdown visibility */
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            color: #1e1b4b;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.3);
+        }
+
+        button:active { transform: translateY(0); }
+
+        .success-msg {
+            display: none;
+            text-align: center;
+            color: #4ade80;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+
+    <div class="container">
+        <div class="glass-card">
+            <div class="header">
+                <h1>HostelEase</h1>
+                <p>Digital Support Portal</p>
+            </div>
+
+            <form id="issueForm">
+                <div class="form-group">
+                    <label for="room">Room Number</label>
+                    <input type="text" id="room" placeholder="Ex: 302-A" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Issue Category</label>
+                    <select id="category" required>
+                        <option value="" disabled selected>Select an issue...</option>
+                        <option value="electric">Electrical / Fan / Lights</option>
+                        <option value="plumbing">Plumbing / Water Leakage</option>
+                        <option value="internet">Wi-Fi / Connectivity</option>
+                        <option value="other">Furniture / General Maintenance</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="desc">Details</label>
+                    <textarea id="desc" rows="3" placeholder="Describe the issue..."></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn">Submit Request</button>
+                <div class="success-msg" id="successMsg">✓ Complaint logged successfully!</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('issueForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMsg = document.getElementById('successMsg');
+
+        // Logic to grab Room No from URL automatically (For QR coding)
+        // URL example: yourpage.html?room=405
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            const roomNumber = params.get('room');
+            if(roomNumber) {
+                document.getElementById('room').value = roomNumber;
+            }
+        };
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Visual feedback
+            submitBtn.innerText = "Processing...";
+            submitBtn.style.opacity = "0.7";
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                form.reset();
+                submitBtn.style.display = "none";
+                successMsg.style.display = "block";
+                
+                // Reset for next user after 3 seconds
+                setTimeout(() => {
+                    successMsg.style.display = "none";
+                    submitBtn.style.display = "block";
+                    submitBtn.innerText = "Submit Request";
+                    submitBtn.style.opacity = "1";
+                    submitBtn.disabled = false;
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
