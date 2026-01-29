@@ -1,157 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Residency | Student Portal</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hostel Management Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;font-family:'Inter',sans-serif}
+    body{margin:0;background:#f4f6fb}
+    .app{max-width:430px;margin:auto;min-height:100vh;background:#f4f6fb}
+
+    header{background:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+    .left{display:flex;align-items:center;gap:10px}
+    .back{font-size:20px;cursor:pointer;display:none}
+    header img{width:32px}
+    .profile{width:34px;height:34px;border-radius:50%;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;cursor:pointer}
+
+    .page{display:none}
+    .page.active{display:block}
+
+    .welcome{padding:16px;font-weight:500}
+    .welcome span{color:#2563eb}
+
+    .card{background:#fff;margin:12px 14px;padding:16px;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,.06)}
+    .card h3{margin:0 0 12px;font-size:15px}
+
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .action{text-align:center;background:#eef2ff;padding:14px;border-radius:14px;cursor:pointer}
+    .action img{width:26px}
+    .action p{margin:6px 0 0;font-size:12px;font-weight:500}
+
+    .apps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .app-icon{text-align:center;cursor:pointer}
+    .app-icon div{background:#eef2ff;padding:18px;border-radius:14px}
+    .app-icon img{width:26px}
+    .app-icon p{font-size:12px;margin:6px 0 0}
+
+    .form{padding:16px}
+    .field{margin-bottom:14px}
+    .field label{font-size:12px;color:#555}
+    .field input,.field select,.field textarea{width:100%;padding:14px;border-radius:12px;border:1px solid #e5e7eb;margin-top:6px}
+    textarea{resize:none;height:90px}
+
+    .submit{position:fixed;bottom:0;max-width:430px;width:100%;background:#6366f1;color:#fff;text-align:center;padding:16px;font-weight:600;cursor:pointer}
+
+    .tabs{display:flex;margin:12px 14px;background:#e5e7eb;border-radius:12px}
+    .tab{flex:1;text-align:center;padding:10px;font-size:13px;cursor:pointer}
+    .tab.active{background:#4f46e5;color:#fff;border-radius:12px}
+
+    .list-card{background:#fff;margin:12px 14px;padding:16px;border-radius:16px;box-shadow:0 8px 18px rgba(0,0,0,.06)}
+    .badge{float:right;background:#f59e0b;color:#fff;font-size:11px;padding:4px 8px;border-radius:999px}
+
+    .token{background:#eef2ff;padding:12px;border-radius:12px;text-align:center;font-weight:600;margin-top:10px}
+
+    .announcement{border-left:4px solid #4f46e5;padding-left:10px}
+
+    .profile-box{text-align:center;padding:20px}
+    .avatar{width:80px;height:80px;border-radius:50%;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;margin:auto}
+  </style>
 </head>
 <body>
-    <div class="glow-orb" id="orb-1"></div>
-    <div class="glow-orb" id="orb-2"></div>
+<div class="app">
+<header>
+  <div class="left">
+    <span class="back" onclick="goBack()">←</span>
+    <img src="https://img.icons8.com/fluency/96/university.png" />
+    <strong>Presidency University</strong>
+  </div>
+  <div class="profile" onclick="showPage('profile')">N</div>
+</header>
 
-    <nav class="sidebar">
-        <div class="logo">ELITE HUB</div>
-        <div class="nav-links">
-            <div class="nav-item active" data-target="home">🏠 <span>Home</span></div>
-            <div class="nav-item" data-target="profile">👤 <span>My Profile</span></div>
-            <div class="nav-item" data-target="leave">📄 <span>Leave Manager</span></div>
-            <div class="nav-item" data-target="ticket">🛠 <span>Raise Ticket</span></div>
-        </div>
-    </nav>
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="welcome">Welcome back, <span>Varadharajula Nishant</span></div>
+  <div class="card">
+    <h3>Quick Actions</h3>
+    <div class="grid3">
+      <div class="action" onclick="showPage('apply')"><img src="https://img.icons8.com/ios-filled/100/calendar.png"><p>Apply Leave</p></div>
+      <div class="action" onclick="showPage('ticket')"><img src="https://img.icons8.com/ios-filled/100/maintenance.png"><p>Raise Ticket</p></div>
+      <div class="action" onclick="showPage('meal')"><img src="https://img.icons8.com/ios-filled/100/meal.png"><p>Book Meal</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Apps</h3>
+    <div class="apps">
+      <div class="app-icon" onclick="showPage('leaveManager')"><div><img src="https://img.icons8.com/ios-filled/100/calendar.png"></div><p>Leave Manager</p></div>
+      <div class="app-icon" onclick="showPage('ticket')"><div><img src="https://img.icons8.com/ios-filled/100/ticket.png"></div><p>Tickets</p></div>
+      <div class="app-icon" onclick="showPage('announcement')"><div><img src="https://img.icons8.com/ios-filled/100/megaphone.png"></div><p>Announcements</p></div>
+    </div>
+  </div>
+</div>
 
-    <main class="viewport">
-        <section id="home" class="page active">
-            <header class="welcome-header">
-                <p>Welcome back,</p>
-                <h1>Varadharajula Nishant</h1>
-            </header>
+<!-- APPLY LEAVE -->
+<div id="apply" class="page">
+  <div class="form">
+    <h3>Apply Leave</h3>
+    <div class="field"><label>Leave Type</label><select><option>Casual</option><option>Medical</option></select></div>
+    <div class="field"><label>From Date</label><input type="date"></div>
+    <div class="field"><label>To Date</label><input type="date"></div>
+    <div class="field"><label>Reason</label><textarea></textarea></div>
+  </div>
+  <div class="submit">Submit Leave</div>
+</div>
 
-            <div class="card-grid">
-                <div class="glass-card laundry-card">
-                    <span class="badge">Laundry Hub</span>
-                    <h3>03 Items Processing</h3>
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: 75%;"></div>
-                    </div>
-                    <p class="status-text">Status: Drying & Folding</p>
-                </div>
+<!-- RAISE TICKET -->
+<div id="ticket" class="page">
+  <div class="form">
+    <h3>Raise Ticket</h3>
+    <div class="field"><label>Room No</label><input value="AF149"></div>
+    <div class="field"><label>Issue Type</label><select><option>Maintenance</option><option>Cleaning</option><option>Laundry</option><option>Security</option></select></div>
+    <div class="field"><label>Describe Issue</label><textarea placeholder="Explain the issue you are facing..."></textarea></div>
+  </div>
+  <div class="submit">Submit Ticket</div>
+</div>
 
-                <div class="glass-card">
-                    <span class="badge">Mess Manager</span>
-                    <h3>Dinner Scheduled</h3>
-                    <p class="card-info">Menu: Veg Pulao & Paneer</p>
-                    <div class="token">TOKEN: #8821</div>
-                </div>
+<!-- MEAL BOOKING -->
+<div id="meal" class="page">
+  <div class="form">
+    <h3>Book a Meal</h3>
+    <div class="field"><label>Select Meal</label><select><option>Breakfast</option><option>Lunch</option><option>Dinner</option></select></div>
+    <div class="token">Meal Token Generated: #MEAL123</div>
+  </div>
+  <div class="submit">Confirm Booking</div>
+</div>
 
-                <div class="glass-card accent-card">
-                    <span class="badge">Tickets</span>
-                    <h3>01 Active Ticket</h3>
-                    <p class="card-info">Issue: Room AC Repair</p>
-                    <p class="status-pill pending">Under Review</p>
-                </div>
-            </div>
-        </section>
+<!-- LEAVE MANAGER -->
+<div id="leaveManager" class="page">
+  <div class="tabs">
+    <div class="tab active">All</div>
+    <div class="tab">Archived</div>
+  </div>
+  <div class="list-card"><span class="badge">Approved</span><p>10 Dec 2024 – Casual Leave</p></div>
+  <div class="list-card"><span class="badge">Approved</span><p>20 May 2024 – Recreation</p></div>
+</div>
 
-        <section id="profile" class="page">
-            <div class="profile-container glass-card">
-                <div class="profile-header">
-                    <div class="avatar">VN</div>
-                    <div>
-                        <h2>Varadharajula Nishant</h2>
-                        <p class="sub-text">B.Tech • Computer Science</p>
-                    </div>
-                </div>
-                <div class="info-grid">
-                    <div class="info-group">
-                        <label>Room Number</label>
-                        <p>B-Wing | 402-A</p>
-                    </div>
-                    <div class="info-group">
-                        <label>College Roll No</label>
-                        <p>2021CS045</p>
-                    </div>
-                    <div class="info-group">
-                        <label>Official Email</label>
-                        <p>nishant.v@university.edu</p>
-                    </div>
-                    <div class="info-group">
-                        <label>Contact</label>
-                        <p>+91 9000683307</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- ANNOUNCEMENTS -->
+<div id="announcement" class="page">
+  <div class="card announcement">
+    <h3>Warden Notice</h3>
+    <p>Hostel inspection will be conducted tomorrow at 10 AM.</p>
+  </div>
+  <div class="card announcement">
+    <h3>Mess Update</h3>
+    <p>Special dinner will be served on Sunday.</p>
+  </div>
+</div>
 
-        <section id="leave" class="page">
-            <div class="form-wrapper glass-card">
-                <h2>Leave Manager</h2>
-                <form id="leaveForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Leave Type</label>
-                            <select>
-                                <option>Weekend Recreation</option>
-                                <option>Home Visit</option>
-                                <option>Medical Leave</option>
-                                <option>College Event</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>From Date</label>
-                            <input type="date">
-                        </div>
-                        <div class="form-group">
-                            <label>To Date</label>
-                            <input type="date">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Place to Visit</label>
-                        <input type="text" placeholder="Enter Destination">
-                    </div>
-                    <div class="form-group">
-                        <label>Reason Description</label>
-                        <textarea rows="3" placeholder="Enter details..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Apply For Leave</button>
-                </form>
-            </div>
-        </section>
+<!-- PROFILE -->
+<div id="profile" class="page">
+  <div class="profile-box">
+    <div class="avatar">N</div>
+    <h3>Varadharajula Nishant</h3>
+    <p>Chokkanahalli Boys Hostel – AF149</p>
+  </div>
+</div>
+</div>
 
-        <section id="ticket" class="page">
-            <div class="form-wrapper glass-card">
-                <h2>Raise Maintenance Ticket</h2>
-                <p class="sub-text">Scan the QR code outside your door to auto-fill room details.</p>
-                
-                <div class="qr-scanner" onclick="simulateScan()">
-                    <div class="scanner-icon">📸</div>
-                    <p>Tap to Scan Room QR</p>
-                </div>
-
-                <form id="ticketForm">
-                    <div class="form-group">
-                        <label>Issue Category</label>
-                        <select id="roomInfo">
-                            <option>Electrical (Fan, Lights)</option>
-                            <option>Plumbing (Leaking, Water)</option>
-                            <option>Internet / Network</option>
-                            <option>Furniture / Carpentry</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Detailed Description</label>
-                        <textarea rows="4" placeholder="Describe the issue..."></textarea>
-                    </div>
-                    <button type="submit" class="submit-btn">Lodge Complaint</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <script src="script.js"></script>
+<script>
+let historyStack=['home'];
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id!=='home') document.querySelector('.back').style.display='block';
+  else document.querySelector('.back').style.display='none';
+  historyStack.push(id);
+}
+function goBack(){
+  historyStack.pop();
+  const prev=historyStack[historyStack.length-1];
+  showPage(prev);
+}
+</script>
 </body>
 </html>
